@@ -5,3 +5,28 @@ az aks show -g yuga -n yuga-aks --query "identity"
 ## Get subscription id from portal
 ## delegate access to azure resources
 az role assignment create --assignee "e3cba0ba-7aae-4f19-addc-cbff5a4d06d5" --scope "/subscriptions/99257a9d-c951-4610-ba74-494aed0d218e/resourceGroups/yuga" --role Contributor
+
+
+##  Helm install
+helm install yb-gke yugabytedb/yugabyte \
+--namespace yb-gke \
+-f helmvalues-gke.yml \
+--kube-context yuga-gke --wait
+
+helm install yb-aks yugabytedb/yugabyte \
+--namespace yb-aks \
+-f helmvalues-aks.yml \
+--kube-context yuga-aks --wait
+
+##  Helm uninstall
+helm uninstall yb-gke \
+--namespace yb-gke \
+--kube-context yuga-gke
+kubectl delete pvc --namespace yb-gke -l app=yb-master
+kubectl delete pvc --namespace yb-gke -l app=yb-tserver
+
+helm uninstall yb-aks \
+--namespace yb-aks \
+--kube-context yuga-aks
+kubectl delete pvc --namespace yb-aks -l app=yb-master
+kubectl delete pvc --namespace yb-aks -l app=yb-tserver

@@ -1,0 +1,47 @@
+isMultiAz: True
+
+AZ: asia-southeast1-b
+
+masterAddresses: "yb-master-0.yb-masters.yb-aks.svc.cluster.local:7100"
+
+replicas:
+  master: 0
+  tserver: 1
+  totalMasters: 1
+
+gflags:
+  master:
+    placement_cloud: "gke"
+    placement_region: "asia-southeast1"
+    placement_zone: "asia-southeast1-b"
+    leader_failure_max_missed_heartbeat_periods: 10
+  tserver:
+    placement_cloud: "gke"
+    placement_region: "asia-southeast1"
+    placement_zone: "asia-southeast1-b"
+    leader_failure_max_missed_heartbeat_periods: 10
+
+resource:
+  master:
+    requests:
+      cpu: 1.5
+      memory: 2Gi
+  tserver:
+    requests:
+      cpu: 1.5
+      memory: 4Gi
+
+serviceEndpoints:
+  - name: "yb-master-ui"
+    type: ClusterIP
+    app: "yb-master"
+    ports:
+      http-ui: "7000"
+
+  - name: "yb-tserver-service"
+    type: LoadBalancer
+    app: "yb-tserver"
+    ports:
+      tcp-yql-port: "9042"
+      tcp-yedis-port: "6379"
+      tcp-ysql-port: "5433"

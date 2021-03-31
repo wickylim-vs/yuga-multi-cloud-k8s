@@ -1,0 +1,40 @@
+isMultiAz: True
+
+AZ: southeastasia-1
+
+masterAddresses: "yb-master-0.yb-masters.yb-aks.svc.cluster.local:7100"
+
+storage:
+  master:
+    count: 1
+    storageClass: default
+  tserver:
+    count: 1
+    storageClass: default
+
+replicas:
+  master: 1
+  tserver: 1
+  totalMasters: 1
+
+gflags:
+  master:
+    placement_cloud: "kas"
+    placement_region: "southeastasia"
+    placement_zone: "southeastasia-1"
+    leader_failure_max_missed_heartbeat_periods: 10
+  tserver:
+    placement_cloud: "aks"
+    placement_region: "southeastasia"
+    placement_zone: "southeastasia-1"
+    leader_failure_max_missed_heartbeat_periods: 10
+
+resource:
+  master:
+    requests:
+      cpu: 1.5
+      memory: 2Gi
+  tserver:
+    requests:
+      cpu: 1.5
+      memory: 4Gi
