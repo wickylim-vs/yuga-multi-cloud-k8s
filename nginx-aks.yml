@@ -23,6 +23,7 @@ spec:
   type: LoadBalancer
   loadBalancerIP: 10.1.31.0
   ports:
-  - port: 80
+  - port: 8080
+    targetPort: 80
   selector:
     app: nginx
