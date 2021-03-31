@@ -1,0 +1,7 @@
+##  2d.	Configure AKS cluster to have permission to create load balancers
+
+## Get principalID
+az aks show -g yuga -n yuga-aks --query "identity"
+## Get subscription id from portal
+## delegate access to azure resources
+az role assignment create --assignee "e3cba0ba-7aae-4f19-addc-cbff5a4d06d5" --scope "/subscriptions/99257a9d-c951-4610-ba74-494aed0d218e/resourceGroups/yuga" --role Contributor
